@@ -1,0 +1,6 @@
+server:
+  port: ${PORT:8083}
+  servlet:
+    context-path: /series-api
+
+message: Test series-service.yml

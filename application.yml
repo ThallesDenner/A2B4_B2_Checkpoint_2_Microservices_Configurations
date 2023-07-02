@@ -1,0 +1,60 @@
+spring:
+  zipkin:
+    base-url: http://zipkin-service:9411/
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbit-service
+    port: 5672
+
+eureka:
+  client:
+    service-url:
+      # defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,circuitbreakers,circuitbreakerevents
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  app:
+    name: company-microservice
+    description: This is the checkpoint 2 microservices architecture
+    version: 1.0.0
+  author: Thalles Denner
+  mail: thalles@email.com
+
+server:
+  port: ${PORT:9999}
+  
+message: Test application.yml
+
+queue:
+  movie-service: queue-movie-service
+  series-service: queue-series-service
+
+## Resilience4J configs for CircuitBreaker Pattern
+resilience4j:
+  circuitbreaker:
+    instances:
+      serie-service:
+        allowHealthIndicatorToFail: false
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failueRateThreshold: 50
+        waitDurationInOpenState: 50s
+        permittedNumberOfCalssInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfIfOpenEnabled: true

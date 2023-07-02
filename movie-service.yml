@@ -1,0 +1,6 @@
+server:
+  port: ${PORT:8082}
+  servlet:
+    context-path: /movie-api
+  
+message: Test movie-service.yml
