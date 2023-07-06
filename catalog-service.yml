@@ -6,14 +6,25 @@ server:
 resilience4j:
   circuitbreaker:
     instances:
-      serie-service:
-        allowHealthIndicatorToFail: false
-        registerHealthIndicator: true
+      movie-service:
         slidingWindowType: COUNT_BASED
         slidingWindowSize: 5
-        failueRateThreshold: 50
-        waitDurationInOpenState: 50s
-        permittedNumberOfCalssInHalfOpenState: 2
-        automaticTransitionFromOpenToHalfIfOpenEnabled: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30000
+        permittedNumberOfCallsInHalfOpenState: 3
+        # ignoreExceptions: NotFoundException
+        registerHealtIndicator: true
+        allowHealthIndicatorToFail: false
+      series-service:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30000
+        permittedNumberOfCallsInHalfOpenState: 3
+        # ignoreExceptions: NotFoundException
+        registerHealtIndicator: true
+        allowHealthIndicatorToFail: false
   
 message: Test catalog-service.yml

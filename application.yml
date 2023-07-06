@@ -1,6 +1,7 @@
+server:
+  port: ${PORT:9999}
+
 spring:
-  zipkin:
-    base-url: http://zipkin-service:9411/
   rabbitmq:
     username: guest
     password: guest
@@ -10,10 +11,16 @@ spring:
 eureka:
   client:
     service-url:
-      # defaultZone: http://localhost:8761/eureka/
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: http://${EUREKA_SERVER_URL:localhost}:8761/eureka
 
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_SERVICE_URL:localhost}:9411
   health:
     circuitbreakers:
       enabled: true
@@ -36,25 +43,8 @@ info:
   author: Thalles Denner
   mail: thalles@email.com
 
-server:
-  port: ${PORT:9999}
-  
-message: Test application.yml
-
 queue:
   movie-service: queue-movie-service
   series-service: queue-series-service
 
-## Resilience4J configs for CircuitBreaker Pattern
-resilience4j:
-  circuitbreaker:
-    instances:
-      serie-service:
-        allowHealthIndicatorToFail: false
-        registerHealthIndicator: true
-        slidingWindowType: COUNT_BASED
-        slidingWindowSize: 5
-        failueRateThreshold: 50
-        waitDurationInOpenState: 50s
-        permittedNumberOfCalssInHalfOpenState: 2
-        automaticTransitionFromOpenToHalfIfOpenEnabled: true
+message: Test application.yml
